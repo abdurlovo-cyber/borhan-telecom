@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{db}/documents {
+    function isAdmin() { return request.auth != null && request.auth.token.admin == true; }
+    function validOffer() {
+      let d = request.resource.data;
+      return d.title is string && d.title.size() > 0 && d.title.size() <= 150
+        && d.operatorId in ['grameenphone','robi','banglalink','airtel','teletalk']
+        && d.regularPrice is number && d.offerPrice is number && d.offerPrice >= 0 && d.offerPrice <= d.regularPrice
+        && d.status in ['active','inactive']
+        && d.startDate is string && d.expiryDate is string && d.expiryDate >= d.startDate;
+    }
+    match /offers/{id} {
+      allow read: if resource.data.status == 'active' || isAdmin();
+      allow create: if isAdmin() && validOffer();
+      allow update: if isAdmin() && validOffer();
+      allow delete: if isAdmin();
+    }
+    match /{coll}/{id} {
+      allow read: if coll in ['operators','categories','appSettings'];
+      allow write: if isAdmin() && coll in ['operators','categories','appSettings'];
+    }
+    match /admins/{id} { allow read, write: if false; }  // managed only via Admin SDK
+    match /users/{uid} { allow read, write: if false; }
+  }
+}

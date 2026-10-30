@@ -1,0 +1,7 @@
+@tailwind base;@tailwind components;@tailwind utilities;
+body{@apply bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 font-sans}
+.btn{@apply inline-flex items-center justify-center rounded-lg px-4 py-2 font-medium bg-teal-600 text-white hover:bg-teal-700 disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400}
+.btn-ghost{@apply bg-transparent text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800}
+.input{@apply w-full rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500}
+.card{@apply rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
